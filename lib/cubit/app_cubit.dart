@@ -96,9 +96,9 @@ class AppCubit extends Cubit<AppState> {
             EmployeeID = response.data['Data']['User']['Employee']['ID'];
             accessToken = response.data['Data']['AccessToken'];
             StoreID =
-                response.data['Data']['Employee']['Stores'][0]['Store']['ID'];
+            response.data['Data']['Employee']['Stores'][0]['Store']['ID'];
             CompanyBranchID = response.data['Data']['Employee']['Stores'][0]
-                ['Store']['CompanyBranch']['Company']['ID'];
+            ['Store']['CompanyBranch']['Company']['ID'];
 
             CacheHelper.saveData(key: 'EmployeeID', value: EmployeeID);
             CacheHelper.saveData(key: 'accessToken', value: accessToken);
@@ -146,7 +146,7 @@ class AppCubit extends Cubit<AppState> {
               'Accept': 'application/json',
               'Accept-Encoding': 'gzip, deflate, br',
               'Accept-Language':
-                  'en-EG,en;q=0.9,ar-EG;q=0.8,ar;q=0.7,de-CH;q=0.6,de;q=0.5,en-GB;q=0.4,en-US;q=0.3',
+              'en-EG,en;q=0.9,ar-EG;q=0.8,ar;q=0.7,de-CH;q=0.6,de;q=0.5,en-GB;q=0.4,en-US;q=0.3',
               'CompanyBranchID': '1',
               'Connection': 'keep-alive',
               'Content-Type': 'application/json',
@@ -160,10 +160,10 @@ class AppCubit extends Cubit<AppState> {
               'StoreID': '61',
               'FiscalYearID': '60',
               'User-Agent':
-                  'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/106.0.0.0 Safari/537.36',
+              'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/106.0.0.0 Safari/537.36',
               'Language': 'en',
               'sec-ch-ua':
-                  'Chromium;v=106, Google Chrome;v=106, Not;A=Brand;v=99',
+              'Chromium;v=106, Google Chrome;v=106, Not;A=Brand;v=99',
               'sec-ch-ua-mobile': '?0',
               'sec-ch-ua-platform': 'Windows'
             }),
@@ -207,7 +207,7 @@ class AppCubit extends Cubit<AppState> {
               'Accept': 'application/json',
               'Accept-Encoding': 'gzip, deflate, br',
               'Accept-Language':
-                  'en-EG,en;q=0.9,ar-EG;q=0.8,ar;q=0.7,de-CH;q=0.6,de;q=0.5,en-GB;q=0.4,en-US;q=0.3',
+              'en-EG,en;q=0.9,ar-EG;q=0.8,ar;q=0.7,de-CH;q=0.6,de;q=0.5,en-GB;q=0.4,en-US;q=0.3',
               'CompanyBranchID': '1',
               'Connection': 'keep-alive',
               'Content-Type': 'application/json',
@@ -221,16 +221,16 @@ class AppCubit extends Cubit<AppState> {
               'StoreID': '61',
               'FiscalYearID': '60',
               'User-Agent':
-                  'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/106.0.0.0 Safari/537.36',
+              'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/106.0.0.0 Safari/537.36',
               'Language': 'en',
               'sec-ch-ua':
-                  'Chromium;v=106, Google Chrome;v=106, Not;A=Brand;v=99',
+              'Chromium;v=106, Google Chrome;v=106, Not;A=Brand;v=99',
               'sec-ch-ua-mobile': '?0',
               'sec-ch-ua-platform': 'Windows'
             }),
       );
       // print(responce.statusCode);
-      // print(responce.data);
+      print(responce.data);
       // itemModel= ItemModel.fromJson(responce.data);
       responceData = jsonEncode(responce.data);
       CacheHelper.saveData(key: 'responceData', value: "${responceData}");
@@ -267,7 +267,7 @@ class AppCubit extends Cubit<AppState> {
     print(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" + id);
 
     final namingEnglish =
-        itemData.where((data) => data['ID'] == int.parse('$id'));
+    itemData.where((data) => data['ID'] == int.parse('$id'));
     namingEnglish.forEach((element) {
       image = element['Image'];
       nameEng = element['NameEnglish'];
@@ -409,7 +409,7 @@ class AppCubit extends Cubit<AppState> {
       CardSizes.addAll(items);
     }
     print(CardSizes);
-      // /*
+    // /*
     var headers = {
       'StoreID': '61',
       'AccessToken': '${accessToken}',
@@ -565,17 +565,17 @@ class AppCubit extends Cubit<AppState> {
             // will not throw errorss
             validateStatus: (status) => true,
             headers: headers));
-     if(response.statusCode==200){
-       print(response.data);
-       OrderTypeNameEnglish = response.data['Data']['OrderTypeNameEnglish'];
-       Date=response.data['Data']['Date'];
-       response.data['Data']['OrderItems'].map((e){
-         OrderItemsPrice.add(e['Price']);
-         OrderItemsQTY.add(e['QTY']);
-         OrderItemsTotalValue.add(e['TotalValue']);
-         OrderItemsNameArabic.add(e['Name']);
-       }).toList();
-       emit(GetListOrderStateSucess());
-     }
+    if(response.statusCode==200){
+      print(response.data);
+      OrderTypeNameEnglish = response.data['Data']['OrderTypeNameEnglish'];
+      Date=response.data['Data']['Date'];
+      response.data['Data']['OrderItems'].map((e){
+        OrderItemsPrice.add(e['Price']);
+        OrderItemsQTY.add(e['QTY']);
+        OrderItemsTotalValue.add(e['TotalValue']);
+        OrderItemsNameArabic.add(e['Name']);
+      }).toList();
+      emit(GetListOrderStateSucess());
+    }
   }
 }
