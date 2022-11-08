@@ -21,11 +21,13 @@ class ItemContainer extends StatelessWidget {
           Container(
             width: 80,
             height: 80,
-            child: FadeInImage.assetNetwork(placeholder: 'assets/images/anim.gif', image: 'https://tolscafetest-api.birdcloud.qa/${image}',
-              fit: BoxFit.cover,
-              height: 300,
-
-            ),
+            child:
+            Image.asset('$image',height: 300,)
+            // FadeInImage.assetNetwork(placeholder: 'assets/images/anim.gif', image: 'https://tolscafetest-api.birdcloud.qa/${image}',
+            //   fit: BoxFit.cover,
+            //   height: 300,
+            //
+            // ),
           ),
           Column(
             children: [

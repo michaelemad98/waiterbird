@@ -4,19 +4,31 @@ class Item{
   final String? NameArabic;
   final String? NameEnglish;
   final String? Image;
+  final int? SizeID;
+  final String? SizeNameArabic;
+  final String? SizeNameEnglish;
+  final double ?SizePrice;
   Item ({
     this.id,
     this.parent,
     this.NameArabic,
     this.NameEnglish,
-    this.Image
+    this.Image,
+    this.SizeID,
+    this.SizeNameArabic,
+    this.SizeNameEnglish,
+    this.SizePrice
   });
   Item.fromMap(Map<dynamic,dynamic>res):
         id=res['id'],
         parent=res['parent'],
         NameArabic=res['NameArabic'],
         NameEnglish=res['NameEnglish'],
-        Image=res['Image'];
+        Image=res['Image'],
+        SizeID=res['SizeID'],
+        SizeNameArabic=res['SizeNameArabic'],
+        SizeNameEnglish=res['SizeNameEnglish'],
+        SizePrice=res['SizePrice'];
   Map<String,Object?>toMap(){
     return{
       'id':id,
@@ -24,6 +36,10 @@ class Item{
       'NameArabic':NameArabic,
       'NameEnglish':NameEnglish,
       'Image':Image,
+      'SizeID':SizeID,
+      'SizeNameArabic':SizeNameArabic,
+      'SizeNameEnglish':SizeNameEnglish,
+      'SizePrice':SizePrice
     };
   }
 }

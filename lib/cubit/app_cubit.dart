@@ -7,15 +7,19 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:waiterbird/function/database/dbcategory.dart';
 import 'package:waiterbird/function/database/dbhelper.dart';
 import 'package:waiterbird/function/dio.dart';
 import 'package:waiterbird/models/cartmodel.dart';
+import 'package:waiterbird/models/categoryModel/categoryModel.dart';
+import 'package:waiterbird/models/categoryModel/itemModel.dart';
 import 'package:waiterbird/models/categorymodel.dart';
 import 'package:waiterbird/models/itemmodel.dart';
 import 'package:waiterbird/models/ordermodel.dart';
 import 'package:waiterbird/models/waiterbirdmodel.dart';
 import 'dart:convert' as convert;
 import 'package:http/http.dart' as http;
+import '../constant/Toastmessage/compontents.dart';
 import '../function/sharedprefrenc.dart';
 
 part 'app_state.dart';
@@ -69,8 +73,8 @@ class AppCubit extends Cubit<AppState> {
   }
 
   void Sigin() async {
-    // emailTEC.text = 'waiter2';
-    // passwordTEC.text = '123456';
+    emailTEC.text = 'waiter2';
+    passwordTEC.text = '123456';
     if (emailTEC.text.isEmpty) {
       print('username is Empty');
       emit(SignINError());
@@ -101,6 +105,7 @@ class AppCubit extends Cubit<AppState> {
             ['Store']['CompanyBranch']['Company']['ID'];
 
             CacheHelper.saveData(key: 'EmployeeID', value: EmployeeID);
+            CacheHelper.saveData(key: 'islogin', value: true);
             CacheHelper.saveData(key: 'accessToken', value: accessToken);
             CacheHelper.saveData(key: 'StoreID', value: StoreID);
             CacheHelper.saveData(
@@ -180,9 +185,74 @@ class AppCubit extends Cubit<AppState> {
       // print(e);
       emit(GetCategotyErorrState());
     }
+  }/////////////////////////////////////////////////////////
+  var image_url='https://www.tastingtable.com/img/gallery/coffee-brands-ranked-from-worst-to-best/l-intro-1645231221.jpg';
+  var imagebase64;
+  void ConvertImage()async{
+    try{
+      var imageresponce= await http.get(Uri.parse(image_url));
+      imagebase64= base64Encode(imageresponce.bodyBytes);
+      print(imagebase64);
+      emit(ConvertimageSucessState());
+    }catch(e){
+      print(e);
+    }
+  }
+  /////////////////////////////////////////
+  DBCategory dbCategory =  DBCategory();
+  List imageCat=[];
+  InsertCategory()async{
+    accessToken = CacheHelper.getData(key: 'accessToken');
+    var dio = Dio();
+    try {
+      var responce = await dio.get(
+        'https://tolscafetest-api.birdcloud.qa/restaurant/Category/GetList?ApperInFeast=false ',
+        options: Options(
+            followRedirects: false,
+            // will not throw errorss
+            validateStatus: (status) => true,
+            headers: {
+              'StoreID': '61',
+              'AccessToken': '${accessToken}',
+              'token': '${accessToken}',
+              'Content-Type': 'application/json',
+              'Cookie': 'ASP.NET_SessionId=uu0bv5jfveqe1315j1t1znbp'
+            }),
+      );
+      categorymodel = Categorymodel.fromJson(responce.data);
+      CategotyData = categorymodel.data!;
+      emit(GetCategotySucessState());
+      for (int c =0; c<categorymodel.data!.length;c++){
+        print('assets/images${categorymodel.data![c].image}');
+        dbCategory.insert(Categorym(
+        id: categorymodel.data![c].id,
+        NameArabic: categorymodel.data![c].nameArabic,
+        NameEnglish: categorymodel.data![c].nameEnglish,
+        Image: 'assets/images${categorymodel.data![c].image}'
+      )).then((value){
+        // print(imagebase64);
+        showToast(text: "Sucess Add", state: ToastState.SUCCESS);
+      }).onError((error, stackTrace){
+        print('Erorr:${error.toString()}');
+        emit(InsertCatdgoryErorr());
+        if(error.toString()=='Null check operator used on a null value'){
+          showToast(text: 'Please Added Again !', state: ToastState.WARNING);
+        }else{showToast(text: 'Already Added !', state: ToastState.ERROR);}
+      });
+      //
+
+      }
+      // return CategotyData;
+
+    } catch (e) {
+      // print(e);
+      emit(InsertCatdgoryErorr());    }
   }
 
+
 ///////////////////////////////////////////////////////////////
+
+  ///////////////////////////////////////////////////////////
 
   ItemModel itemModel = ItemModel();
   List itemData = [];
@@ -192,50 +262,28 @@ class AppCubit extends Cubit<AppState> {
 
   GetItem(String categoryId) async {
     accessToken = CacheHelper.getData(key: 'accessToken');
+    var dio = Dio();
     try {
-      var dio = Dio();
       var responce = await dio.get(
-        'https://tolscafetest-api.birdcloud.qa/Restaurant/Item/GetListOfItemsByCategoryID?id=${categoryId}&ApperInFeast=false',
+        'https://tolscafetest-api.birdcloud.qa/restaurant/Item/GetAllItemsByCategoryID?id=$categoryId',
         options: Options(
             followRedirects: false,
             // will not throw errorss
             validateStatus: (status) => true,
             headers: {
-              'Cookie': 'ASP.NET_SessionId=goia3h4zfq4yi0cejwk3zw4j',
-              'AccessToken': accessToken,
-              'token': accessToken,
-              'Accept': 'application/json',
-              'Accept-Encoding': 'gzip, deflate, br',
-              'Accept-Language':
-              'en-EG,en;q=0.9,ar-EG;q=0.8,ar;q=0.7,de-CH;q=0.6,de;q=0.5,en-GB;q=0.4,en-US;q=0.3',
-              'CompanyBranchID': '1',
-              'Connection': 'keep-alive',
-              'Content-Type': 'application/json',
-              'EmployeeID': '148',
-              'Host': 'tolscafetest-api.birdcloud.qa',
-              'Origin': 'https://tolscafetest.birdcloud.qa',
-              'Referer': 'https://tolscafetest.birdcloud.qa/',
-              'Sec-Fetch-Dest': 'empty',
-              'Sec-Fetch-Mode': 'cors',
-              'Sec-Fetch-Site': 'same-site',
               'StoreID': '61',
-              'FiscalYearID': '60',
-              'User-Agent':
-              'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/106.0.0.0 Safari/537.36',
-              'Language': 'en',
-              'sec-ch-ua':
-              'Chromium;v=106, Google Chrome;v=106, Not;A=Brand;v=99',
-              'sec-ch-ua-mobile': '?0',
-              'sec-ch-ua-platform': 'Windows'
+              'AccessToken': '${accessToken}',
+              'token': '${accessToken}',
+              'Content-Type': 'application/json',
+              'Cookie': 'ASP.NET_SessionId=uu0bv5jfveqe1315j1t1znbp'
             }),
       );
       // print(responce.statusCode);
       print(responce.data);
-      // itemModel= ItemModel.fromJson(responce.data);
+      itemModel= ItemModel.fromJson(responce.data);
+      print(itemModel.message);
       responceData = jsonEncode(responce.data);
       CacheHelper.saveData(key: 'responceData', value: "${responceData}");
-      //print(responce.data['Data'][0]["NameEnglish"]);
-      // print(itemModel.data![0].price);
       itemData = responce.data['Data']!;
       for (int data = 0; data < itemData.length; data++) {
         cardSizes = itemData[data]['CardSizes'];
@@ -250,7 +298,79 @@ class AppCubit extends Cubit<AppState> {
       emit(GetItemSucessState());
     }
   }
+/////////////////////////////////////
+ List categoryid=[155,160,164,165,166,162,172,168,169];
 
+insertItem()async{
+  accessToken = CacheHelper.getData(key: 'accessToken');
+  var dio = Dio();
+  for(int ci=0;ci<categoryid.length;ci++){
+    // print(categoryid[ci]);
+    try {
+      var responce = await dio.get(
+        'https://tolscafetest-api.birdcloud.qa/restaurant/Item/GetAllItemsByCategoryID?id=${categoryid[ci]}',
+        options: Options(
+            followRedirects: false,
+            // will not throw errorss
+            validateStatus: (status) => true,
+            headers: {
+              'StoreID': '61',
+              'AccessToken': '${accessToken}',
+              'token': '${accessToken}',
+              'Content-Type': 'application/json',
+              'Cookie': 'ASP.NET_SessionId=uu0bv5jfveqe1315j1t1znbp'
+            }),
+      );
+      // print(responce.statusCode);
+      // print(responce.data);
+      itemModel= ItemModel.fromJson(responce.data);
+      for(int it=0; it<itemModel.data!.length; it++){
+        // print(itemModel.data![it].image);
+        dbCategory.insertItem(Item(
+          id: itemModel.data![it].id,
+          parent: itemModel.data![it].categoryId,
+          NameArabic:itemModel.data![it].nameArabic,
+          NameEnglish: itemModel.data![it].nameEnglish,
+          Image: 'assets/images${itemModel.data![it].image}',
+          SizeID: itemModel.data![it].cardSizes![0].id,
+          SizeNameArabic: itemModel.data![it].cardSizes![0].size!.nameArabic,
+          SizeNameEnglish: itemModel.data![it].cardSizes![0].size!.nameEnglish,
+          SizePrice: itemModel.data![it].cardSizes![0].price,
+        )).then((value){
+          showToast(text: "Sucess Add", state: ToastState.SUCCESS);
+        }).onError((error, stackTrace){
+          print('Erorr:${error.toString()}');
+          emit(InsertCatdgoryErorr());
+          if(error.toString()=='Null check operator used on a null value'){
+            showToast(text: 'Please Added Again !', state: ToastState.WARNING);
+          }else{showToast(text: 'Already Added !', state: ToastState.ERROR);}
+        });
+      }
+      emit(GetItemSucessState());
+      return responce.data;
+    } catch (e) {
+      // print(e);
+      emit(GetItemSucessState());
+    }
+  }
+}
+//////////////////////////////////////////////
+  late Future<List<Categorym>> tcategoty;
+  Future<List<Categorym>> get categorym => tcategoty;
+  Future<List<Categorym>> getCategoryData()async{
+    tcategoty = dbCategory.getCategoryList();
+    emit(GetCategorySucessState());
+    return tcategoty;
+  }
+/////////////////////////////////////////////
+  late Future<List<Item>> titem;
+  Future<List<Item>> get itemm => titem;
+  Future<Future<List<Item>>> getItemData()async{
+    titem = dbCategory.getItemList();
+
+    emit(GetCategorySucessState());
+    return titem;
+  }
   ///////////////////////////////////
   String image = '';
   String nameEng = '';

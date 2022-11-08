@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:waiterbird/Presintation/UIScreens/HomeMainScreens/CategoryScreens/categoryScreenOfline.dart';
 import 'package:waiterbird/Presintation/Widgets/buttons/buttonstart.dart';
 
 import '../../../cubit/app_cubit.dart';
@@ -79,13 +80,15 @@ class _MakeOrderScreenState extends State<MakeOrderScreen> {
                       ),
                     ),
                     ButtonStart(onPrimary: Colors.white, primary: Colors.grey.shade900, onPressed: (){
-                      Navigator.push(context, MaterialPageRoute(builder: (context)=>CategoiesScreen(type: 2)));
+                      Navigator.push(context, MaterialPageRoute(builder: (context)=>CategoiesScreenOffline(type: 1,)));
+                      // Navigator.push(context, MaterialPageRoute(builder: (context)=>CategoiesScreen(type: 2)));
                     }, text: "Make Order", minimumSizeX: 45, minimumSizeY: 45, paddingHorizontal: 25, fontSize: 25, radius: 25),
                   ],
                 ),
                 Center(
                   child: ButtonStart(onPrimary: Colors.white, primary: Colors.grey.shade900, onPressed: (){
-                    Navigator.push(context, MaterialPageRoute(builder: (context)=>CategoiesScreen(type: 1,)));
+                    Navigator.push(context, MaterialPageRoute(builder: (context)=>CategoiesScreenOffline(type: 1,)));
+                    // Navigator.push(context, MaterialPageRoute(builder: (context)=>CategoiesScreen(type: 1,)));
                   }, text: "Make Order", minimumSizeX: 45, minimumSizeY: 45, paddingHorizontal: 25, fontSize: 25, radius: 25),
                 ),
 

@@ -26,7 +26,7 @@ class _CategoiesScreenState extends State<CategoiesScreen> {
           await cubit.GetCategory();
         }
         return Scaffold(
-          appBar: AppBar(title: Text('Categories'),),
+          appBar: AppBar(title: Text('Categories online'),),
           body: Container(
             child: FutureBuilder(
               future: _getBooks(),

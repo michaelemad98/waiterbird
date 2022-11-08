@@ -1,6 +1,7 @@
 import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
+import 'package:waiterbird/models/categoryModel/itemModel.dart';
 import 'dart:io' as io;
 
 import '../../models/categoryModel/categoryModel.dart';
@@ -22,22 +23,32 @@ class DBCategory {
 
   _onCreate(Database db , int version)async{
     await db
-        .execute('CREATE TABLE tabcategory (id INTEGER NOT NULL PRIMARY KEY , NameArabic VARCHAR, NameEnglish VARCHAR,Image TEXT)');
+        .execute('CREATE TABLE tabcategory (id INTEGER NOT NULL PRIMARY KEY , NameArabic VARCHAR, NameEnglish VARCHAR,Image VARCHAR)');
     await db
-        .execute('CREATE TABLE tabItem (id INTEGER NOT NULL PRIMARY KEY ,parent INTEGER, NameArabic VARCHAR, NameEnglish VARCHAR,Image TEXT)');
+        .execute('CREATE TABLE tabItem (id INTEGER NOT NULL PRIMARY KEY ,parent INTEGER, NameArabic VARCHAR, NameEnglish VARCHAR,Image VARCHAR,SizeID INTEGER,SizeNameArabic VARCHAR,SizeNameEnglish VARCHAR,SizePrice DOUBLE)');
     await db
         .execute('CREATE TABLE tabItemSize (id INTEGER NOT NULL PRIMARY KEY ,parent INTEGER, NameArabic VARCHAR, NameEnglish VARCHAR , price DOUBLE)');
   }
 
-  Future<Category>insert(Category category)async{
+  Future<Categorym>insert(Categorym category)async{
     var dbClient = await db;
     await dbClient!.insert('tabcategory', category.toMap());
     return category;
   }
 
-  Future<List<Category>>getCartList()async{
+  Future<List<Categorym>>getCategoryList()async{
     var dbClient = await db;
     final List<Map<String,Object?>> queryResult= await dbClient!.query('tabcategory');
-    return queryResult.map((e) => Category.fromMap(e)).toList();
+    return queryResult.map((e) => Categorym.fromMap(e)).toList();
+  }
+  Future<Item>insertItem(Item item)async{
+    var dbClient = await db;
+    await dbClient!.insert('tabItem', item.toMap());
+    return item;
+  }
+  Future<List<Item>>getItemList()async{
+    var dbClient= await db;
+    final List<Map<String,Object?>> queryResult = await dbClient!.query('tabItem');
+    return queryResult.map((e) => Item.fromMap(e)).toList();
   }
 }

@@ -44,7 +44,10 @@ class CreateOrderStateError extends AppState{}
 class GetListOrderStateSucess extends AppState{}
 class GetListOrderStateError extends AppState{}
 
-
+class InsertCatdgorySucess extends AppState{}
+class InsertCatdgoryErorr extends AppState{}
+class GetCategorySucessState extends AppState{}
+class ConvertimageSucessState extends AppState{}
 
 
 

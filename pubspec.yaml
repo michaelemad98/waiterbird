@@ -76,6 +76,16 @@ flutter:
   #   - images/a_dot_ham.jpeg
   assets:
     - assets/images/
+    - assets/images/uploads/Categories/
+    - assets/images/Uploads/Categories/CHICKEN CROISSANT.JPG[^STOP^]53eb8819-40f7-41d2-8adf-55857927d39a.JPG
+    - assets/images/Uploads/Categories/Classic Cookies.jpg[^STOP^]2213bb2a-13fa-4569-b4b9-fce3bb367cf3.jpg
+    - assets/images/Uploads/Categories/Flat White_.jpg[^STOP^]e0e60a51-88b1-447f-873e-3a7c6bd4d645.jpg
+    - assets/images/Uploads/Categories/Ice Americano.png[^STOP^]d36b2ece-bc56-4e36-80d4-b07569679b37.png
+    - assets/images/Uploads/Categories/mohito.jpeg[^STOP^]7a8f93cb-5d8b-4ea3-801a-c6076224b4f9.jpeg
+    - assets/images/Uploads/Categories/Navy Lemonade_.png[^STOP^]758a4cb1-f031-44a7-a5ba-d38e0bb4cf0a.png
+    - assets/images/Uploads/Categories/Passion Fruit ICE Tea.png[^STOP^]2c54c5ba-ffa8-48b5-9a23-4c55c4b30762.png
+    - assets/images/Uploads/Categories/R (8).jpg[^STOP^]ebba4752-7c71-491c-a642-9a4394d828ab.jpg
+    - assets/images/Uploads/Items/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

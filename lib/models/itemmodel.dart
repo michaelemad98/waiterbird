@@ -1,8 +1,12 @@
 // To parse this JSON data, do
 //
-//     final itemModel = itemModelFromMap(jsonString);
+//     final itemModel = itemModelFromJson(jsonString);
 
 import 'dart:convert';
+
+ItemModel itemModelFromJson(String str) => ItemModel.fromJson(json.decode(str));
+
+String itemModelToJson(ItemModel data) => json.encode(data.toJson());
 
 class ItemModel {
   ItemModel({
@@ -13,195 +17,117 @@ class ItemModel {
   });
 
   List<Datum>? data;
-  String? message;
+  String ?message;
   bool ?success;
   bool ?authorized;
 
-  factory ItemModel.fromJson(String str) => ItemModel.fromMap(json.decode(str));
-
-  String toJson() => json.encode(toMap());
-
-  factory ItemModel.fromMap(Map<String, dynamic> json) => ItemModel(
-    data: List<Datum>.from(json["Data"].map((x) => Datum.fromMap(x))),
+  factory ItemModel.fromJson(Map<String, dynamic> json) => ItemModel(
+    data: List<Datum>.from(json["Data"].map((x) => Datum.fromJson(x))),
     message: json["Message"],
     success: json["Success"],
     authorized: json["Authorized"],
   );
 
-  Map<String, dynamic> toMap() => {
-    "Data": List<dynamic>.from(data!.map((x) => x.toMap())),
+  Map<String, dynamic> toJson() => {
+    "Data": List<dynamic>.from(data!.map((x) => x.toJson())),
     "Message": message,
     "Success": success,
     "Authorized": authorized,
   };
 }
 
-
-
 class Datum {
   Datum({
+    this.categoryId,
+    this.image,
+    this.name,
     this.id,
     this.nameArabic,
     this.nameEnglish,
-    this.name,
-    this.image,
-    this.imageUrl,
     this.description,
-    this.price,
-    this.displayOrder,
-    this.isBuffetMeal,
-    this.isPreSetMeal,
-    this.apperInBuffet,
-    this.apperInFeast,
-    this.apperInCashier,
-    this.items,
-    this.images,
-    this.products,
-    this.categoryId,
     this.cardSizes,
   });
 
+  int ?categoryId;
+  String? image;
+  String? name;
   int ?id;
   String? nameArabic;
   String ?nameEnglish;
-  String ?name;
-  String ?image;
-  dynamic imageUrl;
   String ?description;
-  int? price;
-  dynamic displayOrder;
-  bool? isBuffetMeal;
-  bool ?isPreSetMeal;
-  bool ?apperInBuffet;
-  bool ?apperInFeast;
-  bool ?apperInCashier;
-  dynamic ?items;
-  List<dynamic> ?images;
-  dynamic ?products;
-  int ?categoryId;
-  List<CardSize>? cardSizes;
+  List<CardSize> ?cardSizes;
 
-  factory Datum.fromJson(String str) => Datum.fromMap(json.decode(str));
-
-  String toJson() => json.encode(toMap());
-
-  factory Datum.fromMap(Map<String, dynamic> json) => Datum(
+  factory Datum.fromJson(Map<String, dynamic> json) => Datum(
+    categoryId: json["CategoryID"],
+    image: json["Image"],
+    name: json["Name"],
     id: json["ID"],
     nameArabic: json["NameArabic"],
     nameEnglish: json["NameEnglish"],
-    name: json["Name"],
-    image: json["Image"],
-    imageUrl: json["ImageUrl"],
     description: json["Description"],
-    price: json["Price"],
-    displayOrder: json["DisplayOrder"],
-    isBuffetMeal: json["IsBuffetMeal"],
-    isPreSetMeal: json["IsPreSetMeal"],
-    apperInBuffet: json["ApperInBuffet"],
-    apperInFeast: json["ApperInFeast"],
-    apperInCashier: json["ApperInCashier"],
-    items: json["Items"],
-    images: json["Images"] == null ? null : List<dynamic>.from(json["Images"].map((x) => x)),
-    products: json["Products"],
-    categoryId: json["CategoryID"],
-
-    cardSizes: json["CardSizes"] == null ? null : List<CardSize>.from(json["CardSizes"].map((x) => CardSize.fromMap(x))),
+    cardSizes: List<CardSize>.from(json["CardSizes"].map((x) => CardSize.fromJson(x))),
   );
 
-  Map<String, dynamic> toMap() => {
+  Map<String, dynamic> toJson() => {
+    "CategoryID": categoryId,
+    "Image": image,
+    "Name": name,
     "ID": id,
     "NameArabic": nameArabic,
     "NameEnglish": nameEnglish,
-    "Name": name,
-    "Image": image,
-    "ImageUrl": imageUrl,
     "Description": description,
-    "Price": price,
-    "DisplayOrder": displayOrder,
-    "IsBuffetMeal": isBuffetMeal,
-    "IsPreSetMeal": isPreSetMeal,
-    "ApperInBuffet": apperInBuffet,
-    "ApperInFeast": apperInFeast,
-    "ApperInCashier": apperInCashier,
-    "Items": items,
-    "Images": images == null ? null : List<dynamic>.from(images!.map((x) => x)),
-    "Products": products,
-    "CategoryID": categoryId,
-    "CardSizes": cardSizes == null ? null : List<dynamic>.from(cardSizes!.map((x) => x.toMap())),
+    "CardSizes": List<dynamic>.from(cardSizes!.map((x) => x.toJson())),
   };
 }
+
 class CardSize {
   CardSize({
     this.id,
-    this.size,
     this.price,
-    this.availableAmount,
-    this.cardSizeItems,
+    this.size,
   });
 
-  int? id;
-  Size? size;
-  int? price;
-  int ?availableAmount;
-  dynamic? cardSizeItems;
+  int ?id;
+  double? price;
+  Size ?size;
 
-  factory CardSize.fromJson(String str) => CardSize.fromMap(json.decode(str));
-
-  String toJson() => json.encode(toMap());
-
-  factory CardSize.fromMap(Map<String, dynamic> json) => CardSize(
+  factory CardSize.fromJson(Map<String, dynamic> json) => CardSize(
     id: json["ID"],
-    size: Size.fromMap(json["Size"]),
     price: json["Price"],
-    availableAmount: json["AvailableAmount"],
-    cardSizeItems: json["CardSizeItems"],
+    size: Size.fromJson(json["Size"]),
   );
 
-  Map<String, dynamic> toMap() => {
+  Map<String, dynamic> toJson() => {
     "ID": id,
-    "Size": size!.toMap(),
     "Price": price,
-    "AvailableAmount": availableAmount,
-    "CardSizeItems": cardSizeItems,
+    "Size": size!.toJson(),
   };
 }
 
 class Size {
   Size({
     this.id,
+    this.name,
     this.nameArabic,
     this.nameEnglish,
-    this.stores,
-    this.code,
-    this.name,
   });
 
-  int? id;
+  int ?id;
+  String ?name;
   String ?nameArabic;
   String ?nameEnglish;
-  dynamic ?stores;
-  String ?code;
-  String ?name;
 
-  factory Size.fromJson(String str) => Size.fromMap(json.decode(str));
-
-  String toJson() => json.encode(toMap());
-
-  factory Size.fromMap(Map<String, dynamic> json) => Size(
+  factory Size.fromJson(Map<String, dynamic> json) => Size(
     id: json["ID"],
+    name: json["Name"],
     nameArabic: json["NameArabic"],
     nameEnglish: json["NameEnglish"],
-    stores: json["Stores"],
-    code: json["Code"] == null ? null : json["Code"],
-    name: json["Name"],
   );
 
-  Map<String, dynamic> toMap() => {
+  Map<String, dynamic> toJson() => {
     "ID": id,
+    "Name": name,
     "NameArabic": nameArabic,
     "NameEnglish": nameEnglish,
-    "Stores": stores,
-    "Code": code == null ? null : code,
-    "Name": name,
   };
 }
