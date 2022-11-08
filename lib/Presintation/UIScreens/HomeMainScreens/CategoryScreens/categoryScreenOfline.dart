@@ -3,7 +3,6 @@ import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:waiterbird/Presintation/UIScreens/HomeMainScreens/CategoryScreens/ItemScreenOffline.dart';
 import 'package:waiterbird/Presintation/UIScreens/HomeMainScreens/categoryitem/itemCategoryScereen.dart';
 import 'package:waiterbird/cubit/app_cubit.dart';
 
@@ -54,7 +53,7 @@ class _CategoiesScreenOfflineState extends State<CategoiesScreenOffline> {
                         return GestureDetector(
                             onTap: (){
                               // Navigator.push(context, MaterialPageRoute(builder: (context)=>ItemScreen(barname: snspShot.data![index].NameEnglish,cateogry_id:snspShot.data![index].id,type:widget.type,)));
-                              Navigator.push(context, MaterialPageRoute(builder: (context)=>ItemScreenOffline()));
+                              // Navigator.push(context, MaterialPageRoute(builder: (context)=>ItemScreenOffline()));
 
                               },
                             child: CategoryConctainerOFF(

@@ -48,17 +48,25 @@ class _MyCartScreenState extends State<MyCartScreen> {
                 future: cubit.getData(),
                 builder: (context,snspShot){
                   if(snspShot.hasData){
+
                     return ListView.builder(
                         itemCount: snspShot.data!.length,
                         itemBuilder: (context,index){
-                          return MyCart_Container(itemname:snspShot.data![index].productName,image: snspShot.data![index].image,itemprice:snspShot.data![index].initialPrice,
+                          cubit.qty=snspShot.data![index].quantity!;
+                          return MyCart_Container(itemname:snspShot.data![index].productName,
+                            image: snspShot.data![index].image,
+                            itemprice:snspShot.data![index].initialPrice,
                             onPresseddelete: (){
+                            print('qtyyy >>> ${cubit.qty}');
+                            print('getTotalPrice >>> ${cubit.getTotalPrice()}');
+
                             dbHelper.delete('${snspShot.data![index].id}');
-                            cubit.RemoveCounter();
-                            cubit.RemoveTotalprice(double.parse('${snspShot.data![index].initialPrice}'));
+                            cubit.DeleteTotalprice(double.parse('${snspShot.data![index].initialPrice}'));
+                            cubit.DeleteCounter();
                           },
                             qty:snspShot.data![index].quantity ,
                             onPressedrmv: (){
+                              print('qtyyy >>> ${cubit.tcounter}');
                               int qunantity= snspShot.data![index].quantity!;
                               double price =snspShot.data![index].initialPrice!;
                               qunantity--;
@@ -81,6 +89,7 @@ class _MyCartScreenState extends State<MyCartScreen> {
 
                             },
                             onPressedadd: (){
+                              print('qtyyy >>> ${cubit.tcounter}');
                             int qunantity= snspShot.data![index].quantity!;
                             double price =snspShot.data![index].initialPrice!;
                             qunantity++;

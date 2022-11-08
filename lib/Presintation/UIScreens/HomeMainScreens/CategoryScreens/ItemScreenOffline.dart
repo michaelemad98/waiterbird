@@ -22,7 +22,7 @@ class _ItemScreenOfflineState extends State<ItemScreenOffline> {
     size = MediaQuery.of(context).size;
     height = size.height;
     width = size.width;
-    return Container();
+    //return Container();
     return BlocProvider(create: (BuildContext context) => AppCubit(),
       child: BlocConsumer<AppCubit, AppState>(builder: (BuildContext context, state){
         AppCubit cubit = AppCubit.get(context);
@@ -47,7 +47,7 @@ class _ItemScreenOfflineState extends State<ItemScreenOffline> {
                             // Navigator.push(context, MaterialPageRoute(builder: (context)=>ItemDetals(id:cubit.itemData[index]["ID"])));
 
                           },
-                          child: ItemContainer(
+                          child: ItemContainerOffline(
                             itemname: snspShot.data![index].NameEnglish,
                             itemprice: snspShot.data![index].SizePrice,
                             image: snspShot.data![index].Image,

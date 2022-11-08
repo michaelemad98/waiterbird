@@ -279,9 +279,9 @@ class AppCubit extends Cubit<AppState> {
             }),
       );
       // print(responce.statusCode);
-      print(responce.data);
+      // print(responce.data);
       itemModel= ItemModel.fromJson(responce.data);
-      print(itemModel.message);
+      // print(itemModel.message);
       responceData = jsonEncode(responce.data);
       CacheHelper.saveData(key: 'responceData', value: "${responceData}");
       itemData = responce.data['Data']!;
@@ -463,6 +463,11 @@ insertItem()async{
     _setPrefItems();
     emit(RemoveCounterState());
   }
+  void DeleteCounter(){
+    tcounter=0;
+    _setPrefItems();
+    emit(DeleteCounterState());
+  }
 
   int getCounter() {
     _getPrefItems();
@@ -470,15 +475,23 @@ insertItem()async{
   }
 
   void AddTotalprice(double producPrice) {
+    print(tcounter);
     _totalPrice = _totalPrice + producPrice;
     _setPrefItems();
     emit(AddTotalpriceState());
   }
 
   void RemoveTotalprice(double producPrice) {
+    print(tcounter);
     _totalPrice = _totalPrice - producPrice;
     _setPrefItems();
-
+    emit(RemoveTotalpriceState());
+  }
+  int qty=0;
+  void DeleteTotalprice(double producPrice) {
+    print(tcounter);
+    _totalPrice = _totalPrice - (producPrice * qty);
+    _setPrefItems();
     emit(RemoveTotalpriceState());
   }
 
@@ -505,12 +518,11 @@ insertItem()async{
 
   void CreateOrder(var type) async {
     accessToken = CacheHelper.getData(key: 'accessToken');
-    print(getData());
     List orders = await getData() ;
     List ?items;
     List CardSizes=[];
     for(int o=0;o<orders.length;o++){
-      print(orders[o].productName);
+      // print(orders[o].productName);
       items=[{
         "ID": o,
         "OrderID": o,
@@ -528,7 +540,7 @@ insertItem()async{
       }];
       CardSizes.addAll(items);
     }
-    print(CardSizes);
+    // print(CardSizes);
     // /*
     var headers = {
       'StoreID': '61',

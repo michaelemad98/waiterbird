@@ -84,7 +84,12 @@ class _ItemScreenState extends State<ItemScreen> {
                                 cubit.AddCounter();
                               }).onError((error, stackTrace){
                                 print('111111111111111111${error.toString()}');
-                                showToast(text: 'Already Added !', state: ToastState.WARNING);
+                                if(error.toString()=='Null check operator used on a null value')
+                                {
+                                  showToast(text: 'Null Value Add Again!', state: ToastState.WARNING);
+                                }else{
+                                  showToast(text: 'Added!', state: ToastState.WARNING);
+                                }
 
                               });
 

@@ -35,6 +35,7 @@ class GetprefreState extends AppState{}
 
 class AddCounterState extends AppState{}
 class RemoveCounterState extends AppState{}
+class DeleteCounterState extends AppState{}
 
 class AddTotalpriceState extends AppState{}
 class RemoveTotalpriceState extends AppState{}
